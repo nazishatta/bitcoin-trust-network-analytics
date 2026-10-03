@@ -1,198 +1,445 @@
-₿ Bitcoin Trust Network Intelligence
-Interactive signed-network analytics for exploring trust, distrust, communities, centrality, and structural patterns in the Stanford Bitcoin Alpha network.
- 
- 
-Python · Streamlit · NetworkX · PyVis · Plotly · Pandas · SciPy
-🚀 Explore the Project
-Live dashboard: https://bitcoin-trust-network-analytics.streamlit.app/
-Source repository: https://github.com/nazishatta/bitcoin-trust-network-analytics
-The dashboard turns a signed, directed trust network into an interactive analytical experience. Rather than presenting one static graph, it lets users change the visible network, structural importance measure, edge sentiment, layout, and filtering thresholds and immediately inspect how the structure changes.
-🔎 The Analytical Question
-How does the structure of a peer-to-peer trust network change when we examine different definitions of importance, relationship sentiment, communities, and connectivity thresholds?
-Bitcoin Alpha users rated other users in a directed trust network. The sign of an edge distinguishes trust from distrust, while its magnitude records the strength of the rating.
-The project focuses on influential users, trust/distrust relationships, community structure, directed connectivity, dense-network visualization, and alternative representations of the same graph.
-📊 Dashboard at a Glance
-Component	Purpose
-Network Explorer	Interactive node-link representation of the filtered trust network
-Trust Matrix	Signed adjacency-matrix alternative for examining dense structure
-Node Intelligence	Ranked centrality table and Top-15 structural-importance chart
-Methodology	Explains the network, visual encodings, and interpretation limitations
-Control Center	Coordinates filtering and visualization choices
+<div align="center">
 
+# ₿ Bitcoin Trust Network Intelligence
 
-🎛️ Interactive Control Center
-Control	What it changes	Why it matters
-Layout	Network layout strategy	Compare alternative spatial organizations
-Node size	Degree, betweenness, or PageRank	Compare definitions of structural importance
-Edge sentiment	All, trust, or distrust	Isolate positive or negative relationships
-Minimum degree	Connectivity threshold	Reduce weakly connected nodes and visual clutter
-Minimum edge strength |rating|	Required rating magnitude	Focus on stronger relationships
-Maximum displayed nodes	Number of visible nodes	Manage density and the hairball problem
-Show node labels	Node-ID visibility	Trade annotation detail for clarity
+### Interactive Signed-Network Analytics
 
+Explore **trust, distrust, communities, centrality, and structural patterns** in the Stanford Bitcoin Alpha network.
 
-Because the controls modify the graph being analyzed, the active filter state is part of the interpretation—not merely a presentation setting.
-🕸️ 01 · Interactive Network Explorer
-The primary view is an interactive node-link visualization of the filtered Bitcoin Alpha network.
-Visual encodings
-Visual channel	Network attribute
-Node	Bitcoin Alpha user
-Directed edge	Rating issued from one user to another
-Node size	Selected structural-importance metric
-Node color	Detected community membership
-Edge sign / appearance	Trust versus distrust relationship
-Edge magnitude	Strength of the signed rating
-Position	Algorithmic network layout
+[![Open Live Dashboard](https://img.shields.io/badge/OPEN_LIVE_DASHBOARD-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://bitcoin-trust-network-analytics.streamlit.app/)
+[![View Source](https://img.shields.io/badge/VIEW_SOURCE-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nazishatta/bitcoin-trust-network-analytics)
 
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![NetworkX](https://img.shields.io/badge/NetworkX-Graph_Analytics-4B8BBE)
+![PyVis](https://img.shields.io/badge/PyVis-Interactive_Network-6C63FF)
+![Plotly](https://img.shields.io/badge/Plotly-Interactive_Charts-3F4F75?logo=plotly&logoColor=white)
 
-Structural importance
-Degree captures how connected a node is within the displayed graph.
-Betweenness centrality highlights nodes that frequently lie along shortest paths and may act as structural bridges.
-PageRank measures importance recursively, giving greater weight to connections involving other important nodes.
-Switching node-size encoding makes these different definitions directly comparable.
-🧩 Community Structure
-Node color represents detected community membership. Community detection adds a structural layer beyond individual-node centrality by making groups with stronger internal connectivity easier to inspect.
-Community colors represent categorical membership, not an ordered quantity.
-🔴 Trust and Distrust
-Bitcoin Alpha is a signed network. Positive ratings represent trust relationships and negative ratings represent distrust relationships.
-The Edge sentiment control lets users examine all visible relationships, trust-only relationships, or distrust-only relationships.
-The minimum edge-strength control uses absolute rating magnitude, allowing weaker relationships to be removed while preserving positive and negative signs.
-🧱 02 · Signed Adjacency Matrix
-Dense node-link diagrams can become difficult to interpret as relationships increase. The Trust Matrix provides an alternative representation.
-Each matrix cell corresponds to a directed relationship:
-row = source node
-column = target node
-cell value = signed trust rating
-The diverging color scale is centered at zero so positive and negative relationships remain visually distinct. Nodes are selected from the currently filtered graph and ordered to make structural patterns easier to inspect.
-Why include a matrix?
-A node-link diagram emphasizes paths, hubs, communities, and topology.
-An adjacency matrix emphasizes relationship density, block structure, signed patterns, clusters of interactions, and the presence or absence of edges.
-Providing both views demonstrates that visualization choice depends on the analytical task.
-🧠 03 · Node Intelligence
-The Node Intelligence view converts network structure into a ranked analytical summary.
-For visible nodes, the dashboard reports:
-- Node ID
-- Degree
-- PageRank
-- Betweenness
-- Community
-A ranked Top 15 horizontal bar chart responds to the selected structural metric, providing a quantitative companion to the network visualization.
-📈 Dynamic KPI Layer
-The dashboard summarizes the active analytical state with headline metrics:
-Active nodes — nodes represented after filtering.
-Visible edges — directed relationships remaining in the active graph.
-Communities — detected community groups represented in the current view.
-Dataset distrust — share of negative relationships in the underlying dataset.
-Keeping dataset distrust independent from the visible sentiment filter avoids implying that a trust-only filtered view means the original network contains no distrust.
-🧹 Managing the Network “Hairball”
-Large node-link diagrams can become visually saturated. This project addresses that problem through coordinated filtering:
-- minimum-degree threshold;
-- minimum absolute edge strength;
-- maximum displayed-node control;
-- sentiment filtering;
-- alternative adjacency-matrix representation.
-The dashboard deliberately exposes the tradeoff between completeness and readability rather than hiding network complexity.
-⚠️ Visualization Integrity & Interpretation
-This dashboard is intended for exploratory structural analysis.
-Layout is not measured distance. Force-directed position is algorithmic. Visual proximity should not automatically be interpreted as physical, social, or temporal distance.
-Filtering changes the visible network. Apparent structure must be interpreted in the context of active controls.
-Centrality is metric-dependent. Degree, betweenness, and PageRank represent different concepts of importance.
-Community color is categorical. A community number or color does not imply higher or lower trustworthiness or importance.
-Dense graphs can obscure structure. The adjacency matrix provides an alternative representation when the node-link diagram becomes difficult to read.
-Network structure does not establish causality. The visualization describes relationships represented in the data; it does not establish why a rating was issued.
-🗂️ Data
-The application uses the Stanford Bitcoin Alpha signed trust network.
-Project data file:
+**[🚀 Launch App](https://bitcoin-trust-network-analytics.streamlit.app/)** ·
+**[💻 Source Code](https://github.com/nazishatta/bitcoin-trust-network-analytics)**
+
+</div>
+
+---
+
+## 🔎 Project Overview
+
+**Bitcoin Trust Network Intelligence** is an interactive Streamlit application for exploring the **Stanford Bitcoin Alpha signed trust network**.
+
+The network is modeled as a **directed, weighted, signed graph**:
+
+- **Nodes** represent anonymous Bitcoin Alpha users.
+- **Directed edges** represent ratings issued from one user to another.
+- **Positive ratings** represent trust.
+- **Negative ratings** represent distrust.
+- **Rating magnitude** represents relationship strength.
+
+Instead of presenting one fixed network diagram, the application lets users interactively change the network view and examine how the structural story changes.
+
+> **Core question:** How does the structure of a peer-to-peer trust network change when we examine different definitions of importance, relationship sentiment, communities, and connectivity thresholds?
+
+---
+
+## ✨ Key Features
+
+| Feature | What it provides |
+| :--- | :--- |
+| 🕸️ **Network Explorer** | Interactive node-link visualization of the filtered network |
+| 🎯 **Centrality Selector** | Switch node size between Degree, PageRank, and Betweenness |
+| 🧩 **Community Detection** | Community membership encoded with categorical node color |
+| 🔴 **Signed Relationships** | Explore all edges, trust only, or distrust only |
+| 🧱 **Trust Matrix** | Signed adjacency-matrix alternative for dense network structure |
+| 🧠 **Node Intelligence** | Centrality table plus Top-15 ranking visualization |
+| 🎛️ **Interactive Filtering** | Degree, rating strength, node count, labels, and sentiment controls |
+| 🔄 **Layout Comparison** | Compare force-directed and circular network layouts |
+| 📊 **Dynamic KPIs** | Active nodes, visible edges, communities, and dataset distrust |
+| ⚠️ **Interpretation Guidance** | Explicit methodology and visualization limitations |
+
+---
+
+## 🚀 Live Dashboard
+
+### **[Open Bitcoin Trust Network Intelligence →](https://bitcoin-trust-network-analytics.streamlit.app/)**
+
+The application is deployed on **Streamlit Community Cloud**.
+
+Use the sidebar controls to change the active network and compare how different structural choices affect the visualization.
+
+---
+
+## 🎛️ Interactive Controls
+
+| Control | Changes | Analytical purpose |
+| :--- | :--- | :--- |
+| **Layout** | Force-directed / Circular | Compare alternative spatial organizations |
+| **Node size** | Degree / PageRank / Betweenness | Compare definitions of structural importance |
+| **Edge sentiment** | All / Trust only / Distrust only | Isolate positive or negative relationships |
+| **Minimum degree** | Node connectivity threshold | Reduce weakly connected nodes |
+| **Minimum edge strength** | Minimum `|rating|` | Focus on stronger relationships |
+| **Maximum displayed nodes** | Visible network size | Control density and readability |
+| **Show node labels** | Node-ID visibility | Balance annotation and visual clutter |
+
+> Filtering changes the graph being displayed. The active controls are therefore part of the analytical interpretation, not merely cosmetic settings.
+
+---
+
+## 🕸️ Network Explorer
+
+The primary view is an interactive **node-link diagram**.
+
+### Visual Encoding
+
+| Visual channel | Encoded network property |
+| :--- | :--- |
+| **Node** | Bitcoin Alpha user |
+| **Directed edge** | Rating from one user to another |
+| **Node size** | Selected centrality measure |
+| **Node color** | Detected community |
+| **Edge sign / appearance** | Trust versus distrust |
+| **Edge magnitude** | Rating strength |
+| **Position** | Algorithmic network layout |
+
+### Why multiple centrality measures?
+
+**Degree** measures connectivity.
+
+**Betweenness centrality** identifies nodes that frequently lie on shortest paths and may function as structural bridges.
+
+**PageRank** measures recursive importance in a directed network, giving greater influence to links involving other important nodes.
+
+The dashboard allows the same graph to be viewed through each measure rather than treating one definition of importance as universally correct.
+
+---
+
+## 🧩 Community Structure
+
+Node color represents **detected community membership**.
+
+Community detection adds a group-level structural perspective to the node-level centrality measures. It helps reveal clusters of users that are more strongly connected within the displayed network.
+
+> Community color is **categorical**. It does not represent an ordered scale of importance or trustworthiness.
+
+---
+
+## 🔴 Trust vs. Distrust
+
+Bitcoin Alpha is a **signed network**.
+
+```text
+Positive rating  →  Trust
+Negative rating  →  Distrust
+|Rating|         →  Relationship strength
+```
+
+The dashboard can display:
+
+- **All** relationships
+- **Trust only**
+- **Distrust only**
+
+The edge-strength threshold operates on absolute rating magnitude so users can focus on stronger relationships without discarding the distinction between positive and negative ratings.
+
+---
+
+## 🧱 Trust Matrix
+
+The **Trust Matrix** provides an adjacency-matrix representation of the active network.
+
+```text
+Row     = Source node
+Column  = Target node
+Cell    = Signed trust rating
+```
+
+A diverging scale centered on zero separates negative and positive relationships.
+
+### Why provide a second network view?
+
+A node-link diagram is useful for seeing:
+
+- hubs;
+- paths;
+- bridges;
+- communities;
+- topology.
+
+An adjacency matrix is useful for seeing:
+
+- relationship density;
+- block structure;
+- signed patterns;
+- clusters of interactions;
+- presence or absence of connections.
+
+This alternative view becomes especially useful when a node-link graph begins to turn into a visual **hairball**.
+
+---
+
+## 🧠 Node Intelligence
+
+The Node Intelligence view provides a quantitative companion to the network visualization.
+
+The table includes:
+
+| Metric | Interpretation |
+| :--- | :--- |
+| **Node** | Anonymous network identifier |
+| **Degree** | Number of visible connections |
+| **PageRank** | Recursive directed-network importance |
+| **Betweenness** | Shortest-path bridging importance |
+| **Community** | Detected structural group |
+
+A **Top-15 horizontal ranking chart** responds to the selected structural metric.
+
+This makes it possible to compare what looks visually prominent in the network with the computed centrality values.
+
+---
+
+## 📊 Dynamic Network KPIs
+
+The application summarizes the active analytical state using headline metrics:
+
+| KPI | Meaning |
+| :--- | :--- |
+| **Active nodes** | Nodes remaining after filtering |
+| **Visible edges** | Directed relationships in the active graph |
+| **Communities** | Detected groups represented in the current view |
+| **Dataset distrust** | Negative-edge share in the underlying dataset |
+
+The dataset-level distrust metric remains independent of the current edge-sentiment view, preventing a trust-only visualization from being mistaken for evidence that the original network contains no distrust.
+
+---
+
+## 🧹 Handling the Hairball Problem
+
+Large network diagrams can become visually saturated and stop communicating useful structure.
+
+The application addresses this through:
+
+1. **Minimum-degree filtering**
+2. **Minimum edge-strength filtering**
+3. **Maximum displayed-node control**
+4. **Trust/distrust filtering**
+5. **Alternative adjacency-matrix representation**
+
+The goal is not to hide network complexity. It is to make the trade-off between **completeness and readability** explicit and interactive.
+
+---
+
+## ⚠️ Interpretation & Limitations
+
+### Layout is not measured distance
+
+Force-directed position is generated algorithmically. Visual proximity should **not** be interpreted as physical, geographic, temporal, or directly observed distance.
+
+### Filtering changes the visible network
+
+Changing thresholds changes which nodes and edges remain. Structural patterns should therefore be interpreted together with the active filter settings.
+
+### Centrality depends on the question
+
+Degree, PageRank, and betweenness describe different forms of structural importance and can rank the same nodes differently.
+
+### Community membership is categorical
+
+Community colors identify detected groups. They do not imply higher or lower quality, importance, or trustworthiness.
+
+### Dense node-link views have limits
+
+As network density grows, overlapping nodes and edges can obscure structure. The matrix view provides an alternative representation for this reason.
+
+### Association is not causation
+
+The network records rating relationships. Its structure alone does not establish why one user trusted or distrusted another.
+
+---
+
+## 🗂️ Dataset
+
+The project uses the **Stanford Bitcoin Alpha signed trust network**.
+
+```text
 data/soc-sign-bitcoinalpha.csv
-The network is modeled as a directed weighted graph:
-source user ── signed rating ──▶ target user
-The rating sign distinguishes trust from distrust, while rating magnitude represents relationship strength.
-🧮 Analytical Pipeline
-Bitcoin Alpha data
-        │
-        ▼
-Load edge data
-        │
-        ▼
-Construct directed weighted graph
-        │
-        ▼
-Apply interactive filters
-        │
-        ▼
-Compute structural metrics
-        │
-        ├── Degree
-        ├── Betweenness
-        ├── PageRank
-        └── Community detection
-        │
-        ▼
-Coordinate analytical views
-        │
-        ├── Network Explorer
-        ├── Signed Trust Matrix
-        ├── Node Intelligence
-        └── KPI summaries
-🛠️ Technology Stack
-Technology	Role
-Python	Application and analytical logic
-Streamlit	Interactive dashboard interface
-NetworkX	Graph construction and network analysis
-PyVis	Interactive node-link visualization
-Plotly	Trust matrix and analytical charts
-Pandas	Data loading and transformation
-SciPy	Numerical support for graph analytics
-Git / GitHub	Version control and source hosting
-Streamlit Community Cloud	Public application deployment
+```
 
+Conceptually:
 
-📁 Repository Structure
+```text
+Source user ── signed rating ──▶ Target user
+```
+
+The graph is constructed as a **directed weighted network**, preserving both rating direction and sign.
+
+---
+
+## 🧮 Analysis Pipeline
+
+```mermaid
+flowchart TD
+    A[Bitcoin Alpha Edge Data] --> B[Load Network Data]
+    B --> C[Construct Directed Weighted Graph]
+    C --> D[Apply Interactive Filters]
+    D --> E[Compute Structural Metrics]
+    E --> F[Degree]
+    E --> G[PageRank]
+    E --> H[Betweenness]
+    E --> I[Community Detection]
+    F --> J[Network Explorer]
+    G --> J
+    H --> J
+    I --> J
+    D --> K[Signed Trust Matrix]
+    E --> L[Node Intelligence]
+    D --> M[Dynamic KPIs]
+```
+
+---
+
+## 🛠️ Technology Stack
+
+| Technology | Role |
+| :--- | :--- |
+| **Python** | Application and analytical logic |
+| **Streamlit** | Interactive dashboard |
+| **NetworkX** | Graph construction and structural analysis |
+| **PyVis** | Interactive node-link rendering |
+| **Plotly** | Matrix and analytical charts |
+| **Pandas** | Data loading and transformation |
+| **SciPy** | Numerical support for graph analytics |
+| **Git / GitHub** | Version control and source hosting |
+| **Streamlit Community Cloud** | Public deployment |
+
+---
+
+## 📁 Repository Structure
+
+```text
 bitcoin-trust-network-analytics/
+│
 ├── app.py
 ├── requirements.txt
 ├── README.md
+│
 ├── data/
 │   └── soc-sign-bitcoinalpha.csv
+│
 └── src/
     ├── graph_metrics.py
     ├── network_renderer.py
     └── matrix_view.py
-app.py coordinates the Streamlit interface and analytical views.
-graph_metrics.py contains graph-analysis and structural-metric logic.
-network_renderer.py builds the interactive PyVis network.
-matrix_view.py generates the signed adjacency-matrix visualization.
-💻 Run Locally
+```
+
+---
+
+<details>
+<summary><strong>💻 Run the Project Locally</strong></summary>
+
+<br>
+
 Clone the repository:
+
+```bash
 git clone https://github.com/nazishatta/bitcoin-trust-network-analytics.git
 cd bitcoin-trust-network-analytics
-Create and activate a virtual environment:
+```
+
+Create a virtual environment:
+
+```bash
 python3 -m venv .venv
+```
+
+Activate it on macOS/Linux:
+
+```bash
 source .venv/bin/activate
+```
+
 Install dependencies:
+
+```bash
 python -m pip install -r requirements.txt
-Run the application:
+```
+
+Run Streamlit:
+
+```bash
 python -m streamlit run app.py
-Then open:
+```
+
+Open:
+
+```text
 http://localhost:8501
-🧭 Suggested Exploration
-1. Start with the default filtered network.
-2. Switch node size between Degree, Betweenness, and PageRank.
-3. Compare All, Trust, and Distrust edge sentiment.
-4. Increase minimum degree and observe which nodes remain.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong>🧭 Suggested Interactive Exploration</strong></summary>
+
+<br>
+
+1. Begin with the default filtered network.
+2. Switch **Node size** between Degree, PageRank, and Betweenness.
+3. Compare **All**, **Trust only**, and **Distrust only**.
+4. Increase the minimum-degree threshold.
 5. Increase minimum edge strength to isolate stronger ratings.
-6. Change the maximum displayed nodes and observe the density/readability tradeoff.
-7. Compare the node-link graph with the Trust Matrix.
-8. Open Node Intelligence and compare centrality rankings with visually prominent nodes.
-🔬 Potential Extensions
-Future development could add ego-network exploration, temporal trust evolution, centrality-threshold filtering, community-level summaries, trust/distrust ratios by community, additional layouts, signed-network-specific measures, shortest-path analysis, temporal animation, and structural anomaly analysis.
+6. Change the maximum displayed-node count and observe the readability trade-off.
+7. Compare **force-directed** and **circular** layouts.
+8. Open the **Trust Matrix** and compare its structure with the node-link view.
+9. Open **Node Intelligence** and compare the centrality ranking with visually prominent nodes.
+
+</details>
+
+---
+
+<details>
+<summary><strong>🔬 Potential Extensions</strong></summary>
+
+<br>
+
+Future development could include:
+
+- ego-network exploration;
+- temporal trust evolution;
+- centrality-threshold filtering;
+- community-level statistics;
+- trust/distrust ratios by community;
+- additional layouts;
+- signed-network-specific structural measures;
+- shortest-path exploration;
+- temporal animation;
+- structural anomaly analysis.
+
 These are potential extensions rather than features claimed by the current application.
-👤 Author
-Nazish Atta
-M.S. Data Science · George Washington University
+
+</details>
+
+---
+
+## 👤 Author
+
+<div align="center">
+
+### **Nazish Atta**
+
+**M.S. Data Science · George Washington University**
+
 Data Science · Analytics · Machine Learning · Interactive Visualization
-GitHub Profile · Project Repository · Live Dashboard
-⭐ Explore the Network
-Change the filters. Compare centrality measures. Separate trust from distrust. Inspect communities. See how the network story changes.
-👉 Launch Bitcoin Trust Network Intelligence
-Python · NetworkX · PyVis · Plotly · Streamlit · Pandas · SciPy
+
+[![GitHub](https://img.shields.io/badge/GitHub-nazishatta-181717?style=flat-square&logo=github)](https://github.com/nazishatta)
+[![Project](https://img.shields.io/badge/Repository-Bitcoin_Trust_Network-181717?style=flat-square&logo=github)](https://github.com/nazishatta/bitcoin-trust-network-analytics)
+[![Live App](https://img.shields.io/badge/Live_App-Open_Dashboard-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://bitcoin-trust-network-analytics.streamlit.app/)
+
+---
+
+### ₿ Explore the Network
+
+**Change the filters. Compare centrality measures. Separate trust from distrust. Inspect communities. See how the network story changes.**
+
+### **[🚀 Launch Bitcoin Trust Network Intelligence](https://bitcoin-trust-network-analytics.streamlit.app/)**
+
+</div>
