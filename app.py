@@ -54,8 +54,20 @@ c1,c2,c3,c4 = st.columns(4)
 c1.metric('Active nodes', H.number_of_nodes())
 c2.metric('Visible edges', H.number_of_edges())
 c3.metric('Communities', len(set(community.values())) if community else 0)
-neg = sum(1 for _,_,d in H.edges(data=True) if d.get('rating',0) < 0)
-c4.metric('Distrust links', f'{(100*neg/max(1,H.number_of_edges())):.1f}%')
+dataset_negative_edges = sum(
+    1
+    for _, _, data in G.edges(data=True)
+    if data.get('rating', 0) < 0
+)
+
+dataset_distrust_pct = (
+    100 * dataset_negative_edges / max(1, G.number_of_edges())
+)
+
+c4.metric(
+    'Dataset distrust',
+    f'{dataset_distrust_pct:.1f}%'
+)
 
 tab1, tab2, tab3, tab4 = st.tabs(['Network Explorer','Trust Matrix','Node Intelligence','Methodology'])
 
@@ -81,8 +93,52 @@ with tab3:
                          'Betweenness':metrics['Betweenness'][n], 'Community':community[n]})
         mdf=pd.DataFrame(rows).sort_values(size_metric, ascending=False)
         st.dataframe(mdf.head(30), width="stretch", hide_index=True)
-        fig=px.bar(mdf.head(15), x='Node', y=size_metric, title=f'Top 15 nodes by {size_metric}')
-        fig.update_layout(paper_bgcolor='#0b0f14', plot_bgcolor='#0b0f14', font_color='#e6edf3')
+        top15 = (
+            mdf.nlargest(15, size_metric)
+            .sort_values(size_metric, ascending=True)
+            .copy()
+        )
+
+        # Treat numeric-looking Bitcoin user IDs as categorical labels.
+        top15['Node'] = top15['Node'].astype(str)
+
+        fig = px.bar(
+            top15,
+            x=size_metric,
+            y='Node',
+            orientation='h',
+            title=f'Top 15 nodes by {size_metric}',
+            text_auto='.4g',
+        )
+
+        fig.update_traces(
+            marker_line_width=0,
+            textposition='outside',
+            cliponaxis=False,
+        )
+
+        fig.update_layout(
+            paper_bgcolor='#0b0f14',
+            plot_bgcolor='#0b0f14',
+            font_color='#e6edf3',
+            height=520,
+            margin=dict(l=60, r=80, t=60, b=55),
+            xaxis_title=size_metric,
+            yaxis_title='Node ID',
+            showlegend=False,
+        )
+
+        fig.update_xaxes(
+            showgrid=True,
+            gridcolor='rgba(255,255,255,0.12)',
+            zeroline=False,
+        )
+
+        fig.update_yaxes(
+            type='category',
+            showgrid=False,
+        )
+
         st.plotly_chart(fig, width="stretch")
 
 with tab4:
