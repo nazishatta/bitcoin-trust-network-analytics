@@ -35,12 +35,19 @@ with st.sidebar:
     layout = st.selectbox('Layout', ['force-directed', 'circular'])
     size_metric = st.selectbox('Node size', ['PageRank', 'Degree', 'Betweenness'])
     edge_mode = st.selectbox('Edge sentiment', ['All', 'Trust only', 'Distrust only'])
-    min_degree = st.slider('Minimum degree', 1, 50, 3)
-    max_nodes = st.slider('Maximum displayed nodes', 50, 800, 300, step=50)
+    min_degree = st.slider('Minimum degree', 1, 50, 8)
+    min_strength = st.slider('Minimum edge strength |rating|', 1, 10, 3)
+    max_nodes = st.slider('Maximum displayed nodes', 50, 400, 125, step=25)
     show_labels = st.checkbox('Show node labels', False)
     search_node = st.text_input('Highlight node ID', '')
 
-H = filter_graph(G, min_degree=min_degree, edge_mode=edge_mode, max_nodes=max_nodes)
+H = filter_graph(
+    G,
+    min_degree=min_degree,
+    edge_mode=edge_mode,
+    min_strength=min_strength,
+    max_nodes=max_nodes,
+)
 metrics, community = compute_metrics(H)
 
 c1,c2,c3,c4 = st.columns(4)
@@ -63,7 +70,7 @@ with tab1:
 with tab2:
     st.subheader('Signed Adjacency Matrix')
     st.caption('An alternative view for dense graphs. Cells encode directed trust ratings.')
-    st.plotly_chart(adjacency_figure(H, limit=150), use_container_width=True)
+    st.plotly_chart(adjacency_figure(H, community=community, limit=100), width="stretch")
 
 with tab3:
     st.subheader('Node Intelligence')
@@ -73,10 +80,10 @@ with tab3:
             rows.append({'Node':str(n),'Degree':metrics['Degree'][n], 'PageRank':metrics['PageRank'][n],
                          'Betweenness':metrics['Betweenness'][n], 'Community':community[n]})
         mdf=pd.DataFrame(rows).sort_values(size_metric, ascending=False)
-        st.dataframe(mdf.head(30), use_container_width=True, hide_index=True)
+        st.dataframe(mdf.head(30), width="stretch", hide_index=True)
         fig=px.bar(mdf.head(15), x='Node', y=size_metric, title=f'Top 15 nodes by {size_metric}')
         fig.update_layout(paper_bgcolor='#0b0f14', plot_bgcolor='#0b0f14', font_color='#e6edf3')
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
 with tab4:
     st.subheader('Methodology & Interpretation')
